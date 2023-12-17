@@ -10,16 +10,20 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handleSearch = useDebouncedCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const params = new URLSearchParams(searchParams);
-    const term = e.target.value;
-    if (term) {
-      params.set("query", term);
-    } else {
-      params.delete("query");
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }, 300)
+  const handleSearch = useDebouncedCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", "1");
+      const term = e.target.value;
+      if (term) {
+        params.set("query", term);
+      } else {
+        params.delete("query");
+      }
+      replace(`${pathname}?${params.toString()}`);
+    },
+    300
+  );
 
   return (
     <div className="relative flex flex-1 flex-shrink-0">
